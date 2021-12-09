@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+require("dotenv/config");
 const MONGODB = process.env.MONGODB_URI;
-const Event = require("./models/Event.model");
+const Event = require("../models/Event.model");
 
 // connect to the database
 const seedEvents = async () => {
@@ -17,8 +18,8 @@ const seedEvents = async () => {
       {
         sport: "Football",
         numberOfPlayers: 14,
-        user: [{ type: Schema.Types.ObjectId, ref: "User" }],
-        venue: [{ type: Schema.Types.ObjectId, ref: "Venue" }],
+        user: [],
+        venue: [],
         location: "La Satalia",
         time: 17.0,
         price: 5,
@@ -26,8 +27,8 @@ const seedEvents = async () => {
       {
         sport: "Football",
         numberOfPlayers: 10,
-        user: [{ type: Schema.Types.ObjectId, ref: "User" }],
-        venue: [{ type: Schema.Types.ObjectId, ref: "Venue" }],
+        user: [],
+        venue: [],
         location: "Club de Fútbol La Catalana",
         time: 18.0,
         price: 5,
@@ -35,8 +36,8 @@ const seedEvents = async () => {
       {
         sport: "Football",
         numberOfPlayers: 14,
-        user: [{ type: Schema.Types.ObjectId, ref: "User" }],
-        venue: [{ type: Schema.Types.ObjectId, ref: "Venue" }],
+        user: [],
+        venue: [],
         location: "Agapito Fernandez",
         time: 19.0,
         price: 5,
@@ -44,7 +45,7 @@ const seedEvents = async () => {
     ];
 
     const createdEvents = await Event.create(allEvents);
-    console.log(allEvents);
+    console.log(createdEvents);
   } catch (error) {
     console.log(error);
   }
