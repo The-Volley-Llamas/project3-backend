@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Poble Nou",
+    "description": "Best football pitch in town",
+    "rating": 5
+  },
+
+  {
+    "name": "Barcelonate",
+    "description": "Worst football pitch in town",
+    "rating": 1
+  },
+
+  {
+    "name": "Poble Sec",
+    "description": "Smallest football pitch in town",
+    "rating": 3
+  },
+
+  {
+    "name": "Besos",
+    "description": "Smelliest football pitch in town",
+    "rating": 1
+  }
+]
