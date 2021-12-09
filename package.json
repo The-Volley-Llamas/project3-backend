@@ -17,13 +17,15 @@
     "dotenv": "^10",
     "express": "^4",
     "express-session": "^1",
-
     "http-errors": "^1",
     "mongoose": "^5",
     "morgan": "^1",
     "multer": "^1",
     "multer-storage-cloudinary": "^4",
-    "serve-favicon": "^2"
+    "serve-favicon": "^2",
+    "cors": "^2.8.5",
+    "express-jwt": "^6.0.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "debug": "^2",
