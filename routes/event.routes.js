@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const multerUploader = require("../config/cloudinary");
 const Event = require("../models/Event.model");
-const Task = require("../models/Task.model");
+const Venue = require("../models/Venue.model");
 
 //  POST /api/events  -  Creates a new events
 router.post("/events", (req, res, next) => {
@@ -16,13 +16,13 @@ router.post("/events", (req, res, next) => {
 
 //  GET /api/events -  Retrieves all of the events
 router.get("/events", (req, res, next) => {
-  Project.find()
+  Event.find()
     .populate("tasks")
     .then((allEvents) => res.json(allEvents))
     .catch((err) => res.json(err));
 });
 
-//  GET /api/projects/:eventsId -  Retrieves a specific project by id
+//  GET /api/events/:eventsId -  Retrieves a specific event by id
 router.get("/events/:eventsId", (req, res, next) => {
   const { eventsId } = req.params;
 
@@ -39,7 +39,7 @@ router.get("/events/:eventsId", (req, res, next) => {
     .catch((error) => res.json(error));
 });
 
-// PUT  /api/projects/:eventId  -  Updates a specific project by id
+// PUT  /api/events/:eventId  -  Updates a specific event by id
 router.put("/events/:eventsId", (req, res, next) => {
   const { eventsId } = req.params;
 
@@ -53,7 +53,7 @@ router.put("/events/:eventsId", (req, res, next) => {
     .catch((error) => res.json(error));
 });
 
-// DELETE  /api/events/:eventId  -  Deletes a specific project by id
+// DELETE  /api/events/:eventId  -  Deletes a specific event by id
 router.delete("/events/:eventId", (req, res, next) => {
   const { eventId } = req.params;
 
@@ -65,7 +65,7 @@ router.delete("/events/:eventId", (req, res, next) => {
   Event.findByIdAndRemove(eventId)
     .then(() =>
       res.json({
-        message: `Project with ${eventId} is removed successfully.`,
+        message: `Event with ${eventId} is removed successfully.`,
       })
     )
     .catch((error) => res.json(error));
