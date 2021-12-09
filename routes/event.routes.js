@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-
+const multerUploader = require("../config/cloudinary");
 const Project = require("../models/Project.model");
 const Task = require("../models/Task.model");
 
