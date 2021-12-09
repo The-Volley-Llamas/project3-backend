@@ -2,22 +2,37 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const multerUploader = require("../config/cloudinary");
+
 const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 //  POST /api/events  -  Creates a new events
-router.post("/events", (req, res, next) => {
-  const { title, description } = req.body;
+router.post("/event/add", isLoggedIn, (req, res, next) => {
+  const { sport, numberOfPlayers, user, venue, location, time, price } = req.body;
+console.log(req.body)
+let venueId; 
+  Venue.find({name:venue})
+    .then((res) => venueId=res._id)
+    .catch((err) => (console.log(err)));
 
-  Event.create({ title, description, tasks: [] })
+  Event.create({
+    sport,
+    numberOfPlayers,
+    location,
+    time,
+    price,
+    venue: [venueId],
+    user:[user.id],
+  })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });
 
 //  GET /api/events -  Retrieves all of the events
-router.get("/events", (req, res, next) => {
+router.get("/event", (req, res, next) => {
   Event.find()
-    .populate("tasks")
+    .populate("venue")
     .then((allEvents) => res.json(allEvents))
     .catch((err) => res.json(err));
 });
@@ -31,10 +46,10 @@ router.get("/events/:eventsId", (req, res, next) => {
     return;
   }
 
-  // Each event document has `tasks` array holding `_id`s of Task documents
-  // We use .populate() method to get swap the `_id`s for the actual Task documents
+  // Each event document has `venues` array holding `_id`s of venue documents
+  // We use .populate() method to get swap the `_id`s for the actual venue documents
   Event.findById(eventId)
-    .populate("tasks")
+    .populate("venue")
     .then((event) => res.status(200).json(event))
     .catch((error) => res.json(error));
 });

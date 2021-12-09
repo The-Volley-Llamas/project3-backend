@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const venueSchema = new Schema({
-  event: { type: Schema.Types.ObjectId, ref: "Event" }
+  event: { type: Schema.Types.ObjectId, ref: "Event" },
   description: String,
   location: String,
   rating: Number,
@@ -13,6 +13,6 @@ const venueSchema = new Schema({
   },
 });
 
-module.exports = model("venue", venueSchema);
-module.exports = Venue;
+module.exports = model("Venue", venueSchema);
+
 
