@@ -4,6 +4,8 @@ const express = require("express");
 
 const { isAuthenticated } = require("./middleware/jwt.middleware");
 
+console.log(process.env)
+
 
 const app = express();
 require("./config")(app);
@@ -16,8 +18,8 @@ app.use("/api", allRoutes);
 const eventsRouter = require("./routes/event.routes");
 app.use("/api", eventsRouter);
 
-const authRouter = require("./routes/auth.routes");
-app.use("/auth", authRouter);
+// const authRouter = require("./routes/auth.routes");
+// app.use("/auth", authRouter);
 
 require("./error-handling")(app);
 
