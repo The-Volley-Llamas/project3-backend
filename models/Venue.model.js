@@ -2,14 +2,13 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const venueSchema = new Schema({
-  event: { type: Schema.Types.ObjectId, ref: "Event" },
+  name: String,
   description: String,
-  location: String,
+  location: {type: {type: String, default: "Point"}, coordinates: Array},
   rating: Number,
   image: {
     type: String,
-    default:
-      "https://.jpg",
+    default: "https://i.redd.it/vzr4p6prv3801.jpg",
   },
 });
 

@@ -9,21 +9,17 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 
 //  POST /api/events  -  Creates a new events
 router.post("/event/add", isLoggedIn, (req, res, next) => {
-  const { sport, numberOfPlayers, user, venue, location, time, price } = req.body;
-console.log(req.body)
-let venueId; 
-  Venue.find({name:venue})
-    .then((res) => venueId=res._id)
-    .catch((err) => (console.log(err)));
+  const { sport, numberOfPlayers, user, venue, time, price } =
+    req.body;
+  console.log(req.body);
 
   Event.create({
     sport,
     numberOfPlayers,
-    location,
+    players: [user._id],
+    venue: [venue._id],
     time,
     price,
-    venue: [venueId],
-    user:[user.id],
   })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
