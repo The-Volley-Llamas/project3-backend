@@ -34,10 +34,10 @@ router.get("/event", (req, res, next) => {
 });
 
 //  GET /api/events/:eventsId -  Retrieves a specific event by id
-router.get("/events/:eventsId", (req, res, next) => {
-  const { eventsId } = req.params;
+router.get("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(eventsId)) {
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
