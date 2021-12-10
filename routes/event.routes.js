@@ -34,10 +34,10 @@ router.get("/event", (req, res, next) => {
 });
 
 //  GET /api/events/:eventsId -  Retrieves a specific event by id
-router.get("/events/:eventsId", (req, res, next) => {
-  const { eventsId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(eventsId)) {
+router.get("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
+console.log(event, "event")
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
@@ -51,8 +51,8 @@ router.get("/events/:eventsId", (req, res, next) => {
 });
 
 // PUT  /api/events/:eventId  -  Updates a specific event by id
-router.put("/events/:eventsId", (req, res, next) => {
-  const { eventsId } = req.params;
+router.put("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
@@ -65,7 +65,7 @@ router.put("/events/:eventsId", (req, res, next) => {
 });
 
 // DELETE  /api/events/:eventId  -  Deletes a specific event by id
-router.delete("/events/:eventId", (req, res, next) => {
+router.delete("/event/:eventId", (req, res, next) => {
   const { eventId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
