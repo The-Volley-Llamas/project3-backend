@@ -16,8 +16,8 @@ router.post("/event/add", isLoggedIn, (req, res, next) => {
   Event.create({
     sport,
     numberOfPlayers,
-    players: [user._id],
-    venue: [venue._id],
+    // players: [user._id],
+    // venue: [venue._id],
     time,
     price,
   })

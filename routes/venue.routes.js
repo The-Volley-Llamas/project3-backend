@@ -23,8 +23,8 @@ router.post("/venue", isLoggedIn, (req, res, next) => {
 });
 
 //  GET /api/venue -  Retrieves all of the venues
-router.get("/veneu", (req, res, next) => {
-  Event.find()
+router.get("/venue", (req, res, next) => {
+  Venue.find()
     .populate("venue")
     .then((allVenues) => res.json(allVenues))
     .catch((err) => res.json(err));
