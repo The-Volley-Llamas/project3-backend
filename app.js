@@ -18,8 +18,6 @@ app.use("/api", allRoutes);
 const eventsRouter = require("./routes/event.routes");
 app.use("/api", eventsRouter);
 
-const authRouter = require("./routes/auth.routes");
-app.use("/auth", authRouter);
 
 // const authRouter = require("./routes/auth.routes");
 // app.use("/auth", authRouter);
