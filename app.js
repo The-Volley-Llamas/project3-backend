@@ -21,6 +21,14 @@ app.use("/api", eventsRouter);
 const authRouter = require("./routes/auth.routes");
 app.use("/auth", authRouter);
 
+// const authRouter = require("./routes/auth.routes");
+// app.use("/auth", authRouter);
+const venuesRouter = require("./routes/venue.routes");
+app.use("/api", venuesRouter);
+
+const authRouter = require("./routes/auth.routes");
+app.use("/auth", authRouter);
+
 require("./error-handling")(app);
 
 module.exports = app;
