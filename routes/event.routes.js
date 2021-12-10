@@ -2,70 +2,81 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const multerUploader = require("../config/cloudinary");
-const Project = require("../models/Project.model");
-const Task = require("../models/Task.model");
 
-//  POST /api/projects  -  Creates a new project
-router.post("/projects", (req, res, next) => {
-  const { title, description } = req.body;
+const Event = require("../models/Event.model");
+const Venue = require("../models/Venue.model");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
-  Project.create({ title, description, tasks: [] })
+//  POST /api/events  -  Creates a new events
+router.post("/event/add", isLoggedIn, (req, res, next) => {
+  const { sport, numberOfPlayers, user, venue, time, price } =
+    req.body;
+  console.log(req.body);
+
+  Event.create({
+    sport,
+    numberOfPlayers,
+    players: [user._id],
+    venue: [venue._id],
+    time,
+    price,
+  })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });
 
-//  GET /api/projects -  Retrieves all of the projects
-router.get("/projects", (req, res, next) => {
-  Project.find()
-    .populate("tasks")
-    .then((allProjects) => res.json(allProjects))
+//  GET /api/events -  Retrieves all of the events
+router.get("/event", (req, res, next) => {
+  Event.find()
+    .populate("venue")
+    .then((allEvents) => res.json(allEvents))
     .catch((err) => res.json(err));
 });
 
-//  GET /api/projects/:projectId -  Retrieves a specific project by id
-router.get("/projects/:projectId", (req, res, next) => {
-  const { projectId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+//  GET /api/events/:eventsId -  Retrieves a specific event by id
+router.get("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
+console.log(event, "event")
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
 
-  // Each Project document has `tasks` array holding `_id`s of Task documents
-  // We use .populate() method to get swap the `_id`s for the actual Task documents
-  Project.findById(projectId)
-    .populate("tasks")
-    .then((project) => res.status(200).json(project))
+  // Each event document has `venues` array holding `_id`s of venue documents
+  // We use .populate() method to get swap the `_id`s for the actual venue documents
+  Event.findById(eventId)
+    .populate("venue")
+    .then((event) => res.status(200).json(event))
     .catch((error) => res.json(error));
 });
 
-// PUT  /api/projects/:projectId  -  Updates a specific project by id
-router.put("/projects/:projectId", (req, res, next) => {
-  const { projectId } = req.params;
+// PUT  /api/events/:eventId  -  Updates a specific event by id
+router.put("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
 
-  Project.findByIdAndUpdate(projectId, req.body, { new: true })
-    .then((updatedProject) => res.json(updatedProject))
+  Event.findByIdAndUpdate(eventId, req.body, { new: true })
+    .then((updatedEvent) => res.json(updatedEvent))
     .catch((error) => res.json(error));
 });
 
-// DELETE  /api/projects/:projectId  -  Deletes a specific project by id
-router.delete("/projects/:projectId", (req, res, next) => {
-  const { projectId } = req.params;
+// DELETE  /api/events/:eventId  -  Deletes a specific event by id
+router.delete("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
 
-  Project.findByIdAndRemove(projectId)
+  Event.findByIdAndRemove(eventId)
     .then(() =>
       res.json({
-        message: `Project with ${projectId} is removed successfully.`,
+        message: `Event with ${eventId} is removed successfully.`,
       })
     )
     .catch((error) => res.json(error));
