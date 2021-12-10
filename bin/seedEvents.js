@@ -15,33 +15,8 @@ const seedEvents = async () => {
   //seeding function
   try {
     const allEvents = [
-      {
-        sport: "Football",
-        numberOfPlayers: 14,
-        user: [],
-        venue: [],
-        location: "La Satalia",
-        time: 17.0,
-        price: 5,
-      },
-      {
-        sport: "Football",
-        numberOfPlayers: 10,
-        user: [],
-        venue: [],
-        location: "Club de Fútbol La Catalana",
-        time: 18.0,
-        price: 5,
-      },
-      {
-        sport: "Football",
-        numberOfPlayers: 14,
-        user: [],
-        venue: [],
-        location: "Agapito Fernandez",
-        time: 19.0,
-        price: 5,
-      },
+     
+      
     ];
 
     const createdEvents = await Event.create(allEvents);
