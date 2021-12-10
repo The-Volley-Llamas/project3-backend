@@ -10,33 +10,32 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 
 const multerUploader = require("../config/cloudinary");
 
-
 router.use(isLoggedIn);
 /* GET users listing. */
 router.get("/profile", async function (req, res, next) {
   const { _id } = req.session.loggedInUser;
-  const userPopulated = await User.findById(_id).populate("favorites");
+  const userPopulated = await User.findById(_id).populate("event");
   res.render("users/profile", { userPopulated, userLoggedIn: true });
 });
 
-router.get("/favorites", async (req, res) => {
+router.get("/event", async (req, res) => {
   try {
     const { _id } = req.session.loggedInUser;
-    const userPopulated = await User.findById(_id).populate("favorites");
-    res.render("users/favorites", { userPopulated, userLoggedIn: true });
+    const userPopulated = await User.findById(_id).populate("event");
+    res.render("users/event", { userPopulated, userLoggedIn: true });
   } catch (err) {
     (err) => console.log(err);
   }
 });
-router.post("/favorites/:id", async (req, res) => {
+router.post("/event/:id", async (req, res) => {
   try {
-    const cafeId = req.params.id;
+    const eventd = req.params.id;
     const { _id } = req.session.loggedInUser;
     const user = await User.findByIdAndUpdate(_id, {
-      $push: { favorites: cafeId },
+      $push: { event: eventId },
     });
 
-    res.redirect("/users/favorites");
+    res.redirect("/users/event");
   } catch (err) {
     console.log(err);
   }
@@ -46,10 +45,10 @@ router.post("/:id/delete", async (req, res, next) => {
   try {
     const { id } = req.params;
     const { _id } = req.session.loggedInUser;
-    const deletedCafe = await User.findByIdAndUpdate(_id, {
-      $pull: { favorites: id },
+    const deletedEvent = await User.findByIdAndUpdate(_id, {
+      $pull: { event: id },
     });
-    res.redirect("/cafes");
+    res.redirect("/event");
   } catch (err) {
     console.log(err);
   }
@@ -63,7 +62,7 @@ router
   })
   .post(multerUploader.single("image"), (req, res) => {
     const userId = req.params.id;
-    const { username, email } = req.body;
+    const { email, name } = req.body;
     let image;
     if (req.file) {
       image = req.file.path;
@@ -71,7 +70,7 @@ router
       image =
         "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg";
     }
-    User.findByIdAndUpdate(userId, { username, email, image }).then((user) => {
+    User.findByIdAndUpdate(userId, { name, email, image }).then((user) => {
       res.redirect(`/users/profile`);
     });
   });
