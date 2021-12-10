@@ -18,16 +18,11 @@ app.use("/api", allRoutes);
 const eventsRouter = require("./routes/event.routes");
 app.use("/api", eventsRouter);
 
-<<<<<<< HEAD
-// const authRouter = require("./routes/auth.routes");
-// app.use("/auth", authRouter);
-=======
 const venuesRouter = require("./routes/venue.routes");
 app.use("/api", venuesRouter);
 
 const authRouter = require("./routes/auth.routes");
 app.use("/auth", authRouter);
->>>>>>> routes
 
 require("./error-handling")(app);
 
