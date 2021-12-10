@@ -36,7 +36,6 @@ router.get("/event", (req, res, next) => {
 //  GET /api/events/:eventsId -  Retrieves a specific event by id
 router.get("/event/:eventId", (req, res, next) => {
   const { eventId } = req.params;
-console.log(event, "event")
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
@@ -65,7 +64,7 @@ router.put("/event/:eventId", (req, res, next) => {
 });
 
 // DELETE  /api/events/:eventId  -  Deletes a specific event by id
-router.delete("/event/:eventId", (req, res, next) => {
+router.delete("/event/:eventId", isLoggedIn, (req, res, next) => {
   const { eventId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
