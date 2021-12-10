@@ -99,20 +99,20 @@ const seedVenues = async () => {
       },
 
       {
-        name: "CV Barcelona", //VOLLEY 1
-        description: "Indoor",
+        name: "Playa de la Nova Mar Bella", //VOLLEY 1
+        description: "Sand court 1",
         location: {
-          type: "Avenida de l'Estadi 12, 08038",
-          coordinates: [41.36626935069661, 2.148427240712645],
+          type: "Playa de la Nova Mar Bella, Barcelona",
+          coordinates: [41.40193207355994, 2.2174135377136985],
         },
         rating: 4.3,
         image:
-          "https://www.fcbarcelona.com/fcbarcelona/photo/2018/06/11/cb1c2a86-843f-41d5-92e7-581e4236f08b/VO180122A46254.jpg",
+          "https://upload.wikimedia.org/wikipedia/commons/8/85/Volleyball_at_Platja_de_la_Nova_Mar_Bella.JPG",
       },
 
       {
         name: "Multiverse BeachVolley", //VOLLEY 2
-        description: "Sand",
+        description: "Sand court 3",
         location: {
           type: "Playa del Bogatell 08038",
           coordinates: [41.393519709983515, 2.2077125364128025],
@@ -123,15 +123,15 @@ const seedVenues = async () => {
       },
 
       {
-        name: "Club Voleibol Vall d'Hebron", //VOLLEY 3
-        description: "Indoor",
+        name: "Moll de Gregal", //VOLLEY 3
+        description: "Sand court 5",
         location: {
-          type: "Passeig de la Vall d'Hebron 166, 08035",
-          coordinates: [41.42821148270863, 2.146658079339903],
+          type: "Moll de Gregal 1, 08005",
+          coordinates: [41.389367136314284, 2.2013864609180986],
         },
         rating: 4.2,
         image:
-          "https://lh3.googleusercontent.com/proxy/XNVLLANCyvVe2XcdPoSfU96NSk2mdoiv0e_mcBehESl6t8Twag68otQlGbYKSVHlCI8frh4RxeA-38ORpLV59BiGos5JFFz0AxzD9x_ShKxExpFGMG1TJ-Qz",
+          "https://www.barcelonastagweekend.com/media/site-stag/images/tours/5/beach.volleyball.barcelona.jpg",
       },
       {
         name: "David Lloyd Club Turó", //TENNIS 1
@@ -241,7 +241,7 @@ const seedVenues = async () => {
       },
 
       {
-        name: "Serra de Collserola", //HIKING 1
+        name: "Serra de Collserola", //INDUVIDUAL 1
         description: "Medium difficulty",
         location: {
           type: "Baixador de Vallvidrera",
@@ -253,7 +253,7 @@ const seedVenues = async () => {
       },
 
       {
-        name: "Montserrat", //HIKING 2
+        name: "Montserrat", //INDUVIDUAL 2
         description: "Medium-high difficulty",
         location: {
           type: "Cremallera i Funiculars de Montserrat",
@@ -265,7 +265,7 @@ const seedVenues = async () => {
       },
 
       {
-        name: "Sitges to Vilanova", //HIKING 3
+        name: "Sitges to Vilanova", //INDUVIDUAL 3
         description: "Low difficulty",
         location: {
           type: "Plaça Eduard Maristany",
@@ -277,7 +277,7 @@ const seedVenues = async () => {
       },
 
       {
-        name: "Sitges to Vilanova", //INDUVIUAL 1
+        name: "Sitges to Vilanova", //INDUVIUAL 4
         description: "Eroica Caffe social ride",
         location: {
           type: "Carrer del Consell de Cent 350, 08009",
@@ -289,7 +289,7 @@ const seedVenues = async () => {
       },
 
       {
-        name: "Carretera de les Aigües", //INDUVIUAL 2
+        name: "Carretera de les Aigües", //INDUVIUAL 5
         description: "Trail running overlooking Barcelona",
         location: {
           type: "Vallvidrera Superior",
@@ -301,7 +301,7 @@ const seedVenues = async () => {
       },
 
       {
-        name: "W Hotel", //INDUVIUAL 3
+        name: "W Hotel", //INDUVIUAL 6
         description: "1 hour outdoor fitness class",
         location: {
           type: "Plaça Rosa del Vents 1",
