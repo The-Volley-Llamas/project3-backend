@@ -64,7 +64,7 @@ router.put("/event/:eventId", (req, res, next) => {
 });
 
 // DELETE  /api/events/:eventId  -  Deletes a specific event by id
-router.delete("/event/:eventId", (req, res, next) => {
+router.delete("/event/:eventId", isLoggedIn, (req, res, next) => {
   const { eventId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
