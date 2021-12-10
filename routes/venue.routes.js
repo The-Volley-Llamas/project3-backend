@@ -8,14 +8,14 @@ const Event = require("../models/Event.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 
-//  POST /api/tasks  -  Creates a new task
+//  POST /api/venue  -  Creates a new venue
 router.post("/venue", isLoggedIn, (req, res, next) => {
   const { name, description, location, rating, image } = req.body;
 
   Venue.create({ name, description, location, rating, image })
     .then((newVenue) => {
       return Event.findByIdAndUpdate(eventId, {
-        $push: { tasks: newVenue._id },
+        $push: { venue: newVenue._id },
       });
     })
     .then((response) => res.json(response))
@@ -24,7 +24,7 @@ router.post("/venue", isLoggedIn, (req, res, next) => {
 
 //  GET /api/venue -  Retrieves all of the venues
 router.get("/venue", (req, res, next) => {
-  Event.find()
+  Venue.find()
     .populate("venue")
     .then((allVenues) => res.json(allVenues))
     .catch((err) => res.json(err));
@@ -34,7 +34,7 @@ router.get("/venue", (req, res, next) => {
 router.get("/venue/:venueId", (req, res, next) => {
   const { venueId } = req.params;
 
-  Task.findById(venueId)
+  Venue.findById(venueId)
     .then((venue) => res.json(venue))
     .catch((error) => res.json(error));
 });
