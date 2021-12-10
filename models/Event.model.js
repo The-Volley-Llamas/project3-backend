@@ -6,6 +6,7 @@ const eventSchema = new Schema({
   numberOfPlayers: Number,
   players: [{ type: Schema.Types.ObjectId, ref: "User"}],
   venue: { type: Schema.Types.ObjectId, ref: "Venue"},
+  date: String,
   time: String,
   price: Number,
 });
