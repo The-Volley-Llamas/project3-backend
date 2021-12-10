@@ -23,9 +23,8 @@ const seedVenues = async () => {
           coordinates: [41.37082136727589, 2.155990366462568],
         },
         rating: 4.5,
-        image: {
-          type: "https://lh3.googleusercontent.com/proxy/RtIvYzyAhS6staD8A8omCf8TCXGPU7xJp-OxOQlvcCXP9bKljvFRYrC4VKits23OdgmtqWIAFgZXoSAD_SbC5taceH2aASwAq2BBOEhlQO-_DZarxsYDlycNiST9",
-        },
+        image: "https://lh3.googleusercontent.com/proxy/RtIvYzyAhS6staD8A8omCf8TCXGPU7xJp-OxOQlvcCXP9bKljvFRYrC4VKits23OdgmtqWIAFgZXoSAD_SbC5taceH2aASwAq2BBOEhlQO-_DZarxsYDlycNiST9",
+        
       },
       {
         name: "Club de Fútbol La Catalana", //FOOTBALL 2
