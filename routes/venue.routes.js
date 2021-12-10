@@ -5,22 +5,8 @@ const multerUploader = require("../config/cloudinary");
 
 const Venue = require("../models/Venue.model");
 const Event = require("../models/Event.model");
-const isLoggedIn = require("../middleware/isLoggedIn");
+//const isAuthenticated = require("../middleware/jwt.middleware");
 
-
-//  POST /api/venue  -  Creates a new venue
-router.post("/venue", isLoggedIn, (req, res, next) => {
-  const { name, description, location, rating, image } = req.body;
-
-  Venue.create({ name, description, location, rating, image })
-    .then((newVenue) => {
-      return Event.findByIdAndUpdate(eventId, {
-        $push: { venue: newVenue._id },
-      });
-    })
-    .then((response) => res.json(response))
-    .catch((err) => res.json(err));
-});
 
 //  GET /api/venue -  Retrieves all of the venues
 router.get("/venue", (req, res, next) => {
@@ -53,8 +39,24 @@ router.put("/venue/:venueId", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+/*
+//  POST /api/venue  -  Creates a new venue
+router.post("/venue", isAuthenticated, (req, res, next) => {
+  const { name, description, location, rating, image } = req.body;
+ console.log(req.body);
+  Venue.create({ name, description, location, rating, image })
+    .then((newVenue) => {
+      return 
+      Event.findByIdAndUpdate(eventId, {
+        $push: { venue: newVenue._id },
+      });
+    })
+    .then((response) => res.json(response))
+    .catch((err) => res.json(err));
+});
+
 //  DELETE /api/venue/:venueId  - Deletes a specific venue by id
-router.delete("/venue/:venueId", (req, res, next) => {
+router.delete("/venue/:venueId", isAuthenticated, (req, res, next) => {
   const { venueId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(venueId)) {
@@ -68,5 +70,5 @@ router.delete("/venue/:venueId", (req, res, next) => {
     )
     .catch((error) => res.json(error));
 });
-
+*/
 module.exports = router;
