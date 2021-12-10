@@ -231,6 +231,186 @@ const seedVenues = async () => {
           type: "https://img3.localgymsandfitness.com/528/608/882118375286083.jpg",
         },
       },
+      {
+        name: "Soma Yoga", //YOGA 1
+        description: "Indoor",
+        location: {
+          type: {
+            type: "Carrer del Bruc 67, 08009",
+            default: "Point",
+          },
+          coordinates: [41.39445669209436, 2.1714657369849077],
+        },
+        rating: 5.0,
+        image: {
+          type: "https://g4l-images.imgix.net/5ce7cc80e4b0c4629807b280/4fb14ad99250ad8cc144c4d46ce6f8bc?fit=crop&auto=format,compress?fit=crop&w=1020&auto=format,compress",
+        },
+      },
+      {
+        name: "Shanti Vida", //YOGA 2
+        description: "Indoor",
+        location: {
+          type: {
+            type: "Carrer dels Còdols 20, 08002",
+            default: "Point",
+          },
+          coordinates: [41.37991572230943, 2.180897243833427],
+        },
+        rating: 4.8,
+        image: {
+          type: "https://shantivida.org/wp-content/uploads/2019/07/shantivida_yoga-center-barcelona-1199x800.jpg",
+        },
+      },
+      {
+        name: "Shunia Yoga", //YOGA 3
+        description: "Indoor",
+        location: {
+          type: {
+            type: "Carrer de Sicília 236, 08013",
+            default: "Point",
+          },
+          coordinates: [41.399161376257574, 2.1753435465403057],
+        },
+        rating: 4.9,
+        image: {
+          type: "https://www.shuniayoga.com/wp-content/uploads/2015/05/IMG_2026-1030x511.jpg",
+        },
+      },
+      {
+        name: "Serra de Collserola", //HIKING 1
+        description: "Medium difficulty",
+        location: {
+          type: {
+            type: "Baixador de Vallvidrera",
+            default: "Point",
+          },
+          coordinates: [41.42081847563577, 2.099297143833427],
+        },
+        rating: 4.9,
+        image: {
+          type: "https://www.parcnaturalcollserola.cat/contenido/uploads/2017/10/panoramica_rp-1000x680.jpg",
+        },
+      },
+      {
+        name: "Montserrat", //HIKING 2
+        description: "Medium-high difficulty",
+        location: {
+          type: {
+            type: "Cremallera i Funiculars de Montserrat",
+            default: "Point",
+          },
+          coordinates: [41.6231648872151, 1.7905924233291337],
+        },
+        rating: 4.7,
+        image: {
+          type: "https://thewholeworldornothing.com/wp-content/uploads/2018/08/Sarah-at-summit-of-Montserrat-Barcelona-Hike.jpg",
+        },
+      },
+      {
+        name: "Sitges to Vilanova", //HIKING 3
+        description: "Low difficulty",
+        location: {
+          type: {
+            type: "Plaça Eduard Maristany",
+            default: "Point",
+          },
+          coordinates: [41.239107750924106, 1.8107419940568075],
+        },
+        rating: 4.1,
+        image: {
+          type: "https://barcelonanavigator.com/wp-content/uploads/2015/03/sitges-155.jpg",
+        },
+      },
+      {
+        name: "Sitges to Vilanova", //INDUVIUAL 1
+        description: "Eroica Caffe social ride",
+        location: {
+          type: {
+            type: "Carrer del Consell de Cent 350, 08009",
+            default: "Point",
+          },
+          coordinates: [41.39458272867981, 2.1720924972576863],
+        },
+        rating: 4.5,
+        image: {
+          type: "https://ciclosfera.com/img/67bb02b0bbe231d22b174f98b130e638.1200.0.0.0.942b9de6.jpg",
+        },
+      },
+      {
+        name: "Carretera de les Aigües", //INDUVIUAL 2
+        description: "Trail running overlooking Barcelona",
+        location: {
+          type: {
+            type: "Vallvidrera Superior",
+            default: "Point",
+          },
+          coordinates: [41.41267949774027, 2.119363355561506],
+        },
+        rating: 4.5,
+        image: {
+          type: "https://estatics-nasia.dtibcn.cat/nasia-pro/media/2016%2C12%2C12195558%2CLa-carretera-de-les-Aig%25C3%25BCes-sector-Horta-Guinard%25C3%25B3-1-760x428.jpg",
+        },
+      },
+      {
+        name: "W Hotel", //INDUVIUAL 3
+        description: "1 hour outdoor fitness class",
+        location: {
+          type: {
+            type: "Plaça Rosa del Vents 1",
+            default: "Point",
+          },
+          coordinates: [41.36935489027254, 2.192170421094019],
+        },
+        rating: 4.5,
+        image: {
+          type: "https://lh3.googleusercontent.com/proxy/A5qGs8nl87RFUZXVan4Db_P51GgvQvpk4dJuuEnM-QOoPVCCNDYHb322nFHVMBqw6CFgqDIsCHKZrWOHqQ-cXE1QwKpH-76eVyBKpEEfb04LA3npKkyjDCrOHSjvso-VfjY",
+        },
+      },
+      {
+        name: "Real Club de Golf el Prat", //ACCESSIBLE SPORTS 1
+        description: "Adapted Golf",
+        location: {
+          type: {
+            type: "Plans de Bonvilar 17, 08227",
+            default: "Point",
+          },
+          coordinates: [41.572910461354894, 2.0596479910720076],
+        },
+        rating: 4.5,
+        image: {
+          type: "https://disabledaccessibletravel.com/wp-content/uploads/Golf-e1562850039799.jpg",
+        },
+      },
+      {
+        name: "Buceo Hispania Barcelona", //ACCESSIBLE SPORTS 2
+        description: "Wheelchair accessible scuba diving",
+        location: {
+          type: {
+            type: "Moll de Gregal Pnayol 1 Port Olímpic, 08005",
+            default: "Point",
+          },
+          coordinates: [41.38750132570019, 2.2049171017263896],
+        },
+        rating: 4.7,
+        image: {
+          type: "https://disabledaccessibletravel.com/wp-content/uploads/Adapted-scuba-diving-Mallorca-.png",
+        },
+      },
+      {
+        name: "Baixador Vallvidrera to Tibidabo", //ACCESSIBLE SPORTS 3
+        description: "Guided hike for the blind",
+        location: {
+          type: {
+            type: "Baixador Vallvidrera",
+            default: "Point",
+          },
+          coordinates: [41.420850656598404, 2.099254228630546],
+        },
+        rating: 5.0,
+        image: {
+          type: "http://blog.barcelonaguidebureau.com/wp-content/uploads/2019/09/Blind-tours.jpg",
+        },
+      },
     ];
 
     const createdEvents = await Venue.create(allVenues);
