@@ -8,8 +8,6 @@ const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-const multerUploader = require("../config/cloudinary");
-
 router.use(isLoggedIn);
 /* GET users listing. */
 router.get("/profile", async function (req, res, next) {
