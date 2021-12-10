@@ -4,7 +4,7 @@ const express = require("express");
 
 const { isAuthenticated } = require("./middleware/jwt.middleware");
 
-console.log(process.env)
+//console.log(process.env)
 
 
 const app = express();

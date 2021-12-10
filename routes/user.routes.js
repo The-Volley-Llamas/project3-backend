@@ -6,50 +6,45 @@ const multerUploader = require("../config/cloudinary");
 const User = require("../models/User.model");
 const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
-const isLoggedIn = require("../middleware/isLoggedIn");
+const isAuthenticated = require("../middleware/jwt.middleware")
 
-router.use(isLoggedIn);
+router.use(isAuthenticated);
 /* GET users listing. */
-router.get("/profile", async function (req, res, next) {
-  const { _id } = req.session.loggedInUser;
+//user will be send from the front in the req body
+router.get("/profile", async (req, res, next)=> {
+    console.log(req.body)
   const userPopulated = await User.findById(_id).populate("event");
-  res.render("users/profile", { userPopulated, userLoggedIn: true });
+  res.status(200).json({userPopulated, message: "user found"});
+   .catch((error) => res.json(error))
 });
 
 router.get("/event", async (req, res) => {
   try {
-    const { _id } = req.session.loggedInUser;
     const userPopulated = await User.findById(_id).populate("event");
-    res.render("users/event", { userPopulated, userLoggedIn: true });
-  } catch (err) {
-    (err) => console.log(err);
-  }
+    res.status(200).json({ userPopulated, message:"event found"});
+  }  .catch((error) => res.json(error))
 });
+
 router.post("/event/:id", async (req, res) => {
   try {
     const eventd = req.params.id;
-    const { _id } = req.session.loggedInUser;
     const user = await User.findByIdAndUpdate(_id, {
       $push: { event: eventId },
     });
 
     res.redirect("/users/event");
-  } catch (err) {
-    console.log(err);
-  }
+  }  .catch((error) => res.json(error));
+  
 });
 
 router.post("/:id/delete", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { _id } = req.session.loggedInUser;
     const deletedEvent = await User.findByIdAndUpdate(_id, {
       $pull: { event: id },
     });
     res.redirect("/event");
-  } catch (err) {
-    console.log(err);
-  }
+  }  .catch((error) => res.json(error))
 });
 router
   .route("/edit/:id")
@@ -70,7 +65,8 @@ router
     }
     User.findByIdAndUpdate(userId, { name, email, image }).then((user) => {
       res.redirect(`/users/profile`);
-    });
+    })
+     .catch((error) => res.json(error));
   });
 
 module.exports = router;

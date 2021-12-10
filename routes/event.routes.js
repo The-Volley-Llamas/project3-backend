@@ -5,12 +5,11 @@ const multerUploader = require("../config/cloudinary");
 
 const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
-const isLoggedIn = require("../middleware/isLoggedIn");
+const isAuthenticated = require("../middleware/jwt.middleware")
 
 //  POST /api/events  -  Creates a new events
-router.post("/event/add", isLoggedIn, (req, res, next) => {
-  const { sport, numberOfPlayers, user, venue, time, price } =
-    req.body;
+router.post("/event/add", isAuthenticated, (req, res, next) => {
+  const { sport, numberOfPlayers, user, venue, time, price } = req.body;
   console.log(req.body);
 
   Event.create({
@@ -64,7 +63,7 @@ router.put("/event/:eventId", (req, res, next) => {
 });
 
 // DELETE  /api/events/:eventId  -  Deletes a specific event by id
-router.delete("/event/:eventId", isLoggedIn, (req, res, next) => {
+router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
   const { eventId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
