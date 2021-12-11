@@ -2,7 +2,7 @@ require("dotenv/config");
 require("./db");
 const express = require("express");
 
-const { isAuthenticated } = require("./middleware/jwt.middleware");
+//const { isAuthenticated } = require("./middleware/jwt.middleware");
 
 //console.log(process.env)
 
@@ -17,10 +17,8 @@ app.use("/api", allRoutes);
 
 const eventsRouter = require("./routes/event.routes");
 app.use("/api", eventsRouter);
+//do we need to add isAuthenticated
 
-
-// const authRouter = require("./routes/auth.routes");
-// app.use("/auth", authRouter);
 const venuesRouter = require("./routes/venue.routes");
 app.use("/api", venuesRouter);
 

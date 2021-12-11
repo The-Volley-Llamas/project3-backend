@@ -5,7 +5,7 @@ const multerUploader = require("../config/cloudinary");
 
 const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
-const isAuthenticated = require("../middleware/jwt.middleware")
+const isAuthenticated = require("../middleware/jwt.middleware");
 
 //  POST /api/events  -  Creates a new events
 router.post("/event/add", isAuthenticated, (req, res, next) => {
@@ -15,14 +15,13 @@ router.post("/event/add", isAuthenticated, (req, res, next) => {
   Event.create({
     sport,
     numberOfPlayers,
-    players: [_id],
-    venue: [venue],
+    players: [user._id],
+    venue: [venue._id],
     time,
     price,
   })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
-    
 });
 
 //  GET /api/events -  Retrieves all of the events
