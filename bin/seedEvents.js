@@ -28,7 +28,6 @@ const seedEvents = async () => {
         sport: "Football",
         numberOfPlayers: 10,
         players: [],
-        ve
         date: "23/12/2021",
         time: "20:00",
         price: 7.5,
