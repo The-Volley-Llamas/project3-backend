@@ -2,13 +2,15 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const multerUploader = require("../config/cloudinary");
-
+const User = require("../models/User.model");
 const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
 const isAuthenticated = require("../middleware/jwt.middleware");
 
+//works without the isAuthenticated, throwing errors otherwise 
+
 //  POST /api/events  -  Creates a new events
-router.post("/event/add", isAuthenticated, (req, res, next) => {
+router.post("/event/add", (req, res, next) => {
   const { sport, numberOfPlayers, user, venue, time, price } = req.body;
   console.log(req.body);
 
@@ -39,7 +41,6 @@ router.get("/event/:eventId", (req, res, next) => {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-
   // Each event document has `venues` array holding `_id`s of venue documents
   // We use .populate() method to get swap the `_id`s for the actual venue documents
   Event.findById(eventId)
@@ -51,19 +52,17 @@ router.get("/event/:eventId", (req, res, next) => {
 // PUT  /api/events/:eventId  -  Updates a specific event by id
 router.put("/event/:eventId", (req, res, next) => {
   const { eventId } = req.params;
-
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-
   Event.findByIdAndUpdate(eventId, req.body, { new: true })
     .then((updatedEvent) => res.json(updatedEvent))
     .catch((error) => res.json(error));
 });
 
 // DELETE  /api/events/:eventId  -  Deletes a specific event by id
-router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
+router.delete("/event/:eventId", (req, res, next) => {
   const { eventId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {

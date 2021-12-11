@@ -8,45 +8,45 @@ const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
 const isAuthenticated = require("../middleware/jwt.middleware")
 
-router.use(isAuthenticated);
+
 /* GET users listing. */
 //user will be send from the front in the req body
-router.get("/profile", async (req, res, next)=> {
-    console.log(req.body)
-  const userPopulated = await User.findById(_id).populate("event");
-  res.status(200).json({userPopulated, message: "user found"});
-   .catch((error) => res.json(error))
+// PUT  /api/profile/:userId  -  Updates profile by id
+router.put("/profile/:userId", isAuthenticated, (req, res, next) => {
+  const { userId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    res.status(400).json({ message: "" });
+    return;
+  }
+  User.findByIdAndUpdate(userId, req.body, { new: true })
+    .then((updatedProfile) => res.json(updatedProfile))
+    .catch((error) => res.json(error));
 });
 
-router.get("/event", async (req, res) => {
-  try {
-    const userPopulated = await User.findById(_id).populate("event");
-    res.status(200).json({ userPopulated, message:"event found"});
-  }  .catch((error) => res.json(error))
+  // DELETE  /api/profile/:userId  -  Deletes a specific user by id
+  //how to delete your won account??=>
+router.delete("/profile/:userId", isAuthenticated, (req, res, next) => {
+  const { userId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    res.status(400).json({ message: "" });
+    return;
+  }
+
+  Event.findByIdAndRemove(userId)
+    .then(() =>
+      res.json({
+        message: `User with ${userId} is removed successfully.`,
+      })
+    )
+    .catch((error) => res.json(error));
 });
 
-router.post("/event/:id", async (req, res) => {
-  try {
-    const eventd = req.params.id;
-    const user = await User.findByIdAndUpdate(_id, {
-      $push: { event: eventId },
-    });
 
-    res.redirect("/users/event");
-  }  .catch((error) => res.json(error));
-  
-});
+module.exports = router;
 
-router.post("/:id/delete", async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const deletedEvent = await User.findByIdAndUpdate(_id, {
-      $pull: { event: id },
-    });
-    res.redirect("/event");
-  }  .catch((error) => res.json(error))
-});
-router
+
+/*router
   .route("/edit/:id")
   .get((req, res) => {
     User.findById(req.params.id).then((user) => {
@@ -68,5 +68,4 @@ router
     })
      .catch((error) => res.json(error));
   });
-
-module.exports = router;
+*/
