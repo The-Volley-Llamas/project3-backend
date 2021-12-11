@@ -4,6 +4,7 @@ const { Schema, model } = mongoose;
 const venueSchema = new Schema({
   name: String,
   description: String,
+  sport: [String],
   location: { type: { type: String, default: "Point" }, coordinates: Array },
   rating: Number,
   image: {
