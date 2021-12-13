@@ -65,15 +65,13 @@ router.put("/event/:eventId", (req, res, next) => {
 });
 
 
-router.post("/join/:eventid", isAuthenticated, (req, res, next) => {
-    const userId = req.params
-  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
+    const {eventId, userId} = req.params
+  if (!mongoose.Types.ObjectId.isValid(eventId ) || !mongoose.Types.ObjectId.isValid(userId )) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-   { $addToSet: { players: userId} };
-
-  Event.findByIdAndUpdate(eventId, req.body, { new: true })
+  Event.findByIdAndUpdate(eventId, { $addToSet: { players: userId} }, { new: true })
   
     .then((updatedEvent) => res.json(updatedEvent))
     .catch((error) => res.json(error));
