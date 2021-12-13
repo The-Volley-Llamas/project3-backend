@@ -2,7 +2,7 @@ require("dotenv/config");
 require("./db");
 const express = require("express");
 
-//const { isAuthenticated } = require("./middleware/jwt.middleware");
+const { isAuthenticated } = require("./middleware/jwt.middleware");
 
 //console.log(process.env)
 
