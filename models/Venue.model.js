@@ -9,10 +9,9 @@ const venueSchema = new Schema({
   rating: Number,
   image: {
     type: String,
-    default: "https://i.redd.it/vzr4p6prv3801.jpg",
+    default:
+      "https://deportesurbanos.com/wp-content/uploads/2020/05/pista-multideportiva-antivandalica.jpg",
   },
 });
 
 module.exports = model("Venue", venueSchema);
-
-

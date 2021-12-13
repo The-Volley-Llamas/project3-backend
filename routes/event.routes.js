@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -6,24 +5,27 @@ const fileUploader = require("../config/cloudinary.config");
 const User = require("../models/User.model");
 const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
-const {isAuthenticated} = require("../middleware/jwt.middleware");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-//works without the isAuthenticated, throwing errors otherwise 
+//works without the isAuthenticated, throwing errors otherwise
 
 //  POST /api/events  -  Creates a new events
 router.post("/event/add", isAuthenticated, (req, res, next) => {
-  const { sport, numberOfPlayers, user, venue, time, price } = req.body;
-  console.log(req.body);
-
+const { formState: {sport, numberOfPlayers, venue, date, time, price }, user:{_id}} = req.body;
+console.log(req.body)
   Event.create({
     sport,
     numberOfPlayers,
-    players: [user._id],
-    venue: [venue._id],
+    players: [_id],
+    venue: venue,
+    date,
     time,
     price,
   })
-    .then((response) => res.json(response))
+    .then((response) => {
+      console.log(response);
+      res.status(200).json(response);
+    })
     .catch((err) => res.json(err));
 });
 
@@ -31,7 +33,10 @@ router.post("/event/add", isAuthenticated, (req, res, next) => {
 router.get("/event", (req, res, next) => {
   Event.find()
     .populate("venue")
-    .then((allEvents) => res.json(allEvents))
+    .then((allEvents) => {
+      console.log('all events length', allEvents)
+      res.json(allEvents)}
+      )
     .catch((err) => res.json(err));
 });
 
@@ -59,24 +64,36 @@ router.put("/event/:eventId", (req, res, next) => {
     return;
   }
   Event.findByIdAndUpdate(eventId, req.body, { new: true })
-  
+
     .then((updatedEvent) => res.json(updatedEvent))
     .catch((error) => res.json(error));
 });
 
-
 router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
-    const {eventId, userId} = req.params
-  if (!mongoose.Types.ObjectId.isValid(eventId ) || !mongoose.Types.ObjectId.isValid(userId )) {
+  const { eventId, userId } = req.params;
+  if (
+    !mongoose.Types.ObjectId.isValid(eventId) ||
+    !mongoose.Types.ObjectId.isValid(userId)
+  ) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findByIdAndUpdate(eventId, { $addToSet: { players: userId} }, { new: true })
-  
-    .then((updatedEvent) => res.json(updatedEvent))
-    .catch((error) => res.json(error));
+  Event.findById(eventId)
+    .then((response) => {
+      if (response.players.includes(userId)) {
+        res.status(200).json({ message: "Already signed up!" });
+      } else {
+        return Event.findByIdAndUpdate(
+          eventId,
+          { $addToSet: { players: userId } },
+          { new: true }
+        )
+          .then((updatedEvent) => res.json(updatedEvent))
+          .catch((error) => res.status(500).json(error));
+      }
+    })
+    .catch((error) => res.status(500).json(error));
 });
-
 
 // DELETE  /api/events/:eventId  -  Deletes a specific event by id
 router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
@@ -84,6 +101,7 @@ router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
+
     return;
   }
 
