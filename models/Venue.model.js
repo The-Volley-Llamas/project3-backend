@@ -5,7 +5,7 @@ const venueSchema = new Schema({
   name: String,
   description: String,
 
-  location: {type: {type: String, default: "Point"}, coordinates: Array, type: String},
+  location: {type: {type: String, default: "Point"}, coordinates: Array},
   rating: Number,
   image: {
     type: String,

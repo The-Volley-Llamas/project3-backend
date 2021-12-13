@@ -71,10 +71,19 @@ router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findByIdAndUpdate(eventId, { $addToSet: { players: userId} }, { new: true })
-  
+  Event.findById(eventId)
+  .then((response)=> {
+    if(response.players.includes(userId)){
+    res.status(200).json({message: "Already signed up!"})
+  }else{
+    return Event.findByIdAndUpdate(eventId, { $addToSet: { players: userId} }, { new: true })
     .then((updatedEvent) => res.json(updatedEvent))
-    .catch((error) => res.json(error));
+    .catch((error) => res.status(500).json(error));
+
+  }
+  })
+  .catch((error) => res.status(500).json(error));
+
 });
 
 
@@ -84,6 +93,7 @@ router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
+
     return;
   }
 
