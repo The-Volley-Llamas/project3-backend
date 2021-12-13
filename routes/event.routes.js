@@ -46,7 +46,7 @@ router.get("/event/:eventId", (req, res, next) => {
   // We use .populate() method to get swap the `_id`s for the actual venue documents
   Event.findById(eventId)
     .populate("venue")
-    .populate("players")
+   // .populate("players")
     .then((event) => res.status(200).json(event))
     .catch((error) => res.json(error));
 });
