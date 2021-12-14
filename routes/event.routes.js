@@ -82,13 +82,13 @@ router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
     .then((response) => {
       if (response.players.includes(userId)) {
         res.status(200).json({ message: "Already signed up!" });
-      } else {
+      } else if(response.players.length < numberOfPlayers) {
         return Event.findByIdAndUpdate(
           eventId,
           { $addToSet: { players: userId } },
           { new: true }
         )
-          .then((updatedEvent) => res.json(updatedEvent))
+          .then((updatedEvent) => res.json({updatedEvent, message: "You have joined the game!"}))
           .catch((error) => res.status(500).json(error));
       }
     })
