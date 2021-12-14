@@ -15,6 +15,9 @@ require("./config")(app);
 const allRoutes = require("./routes");
 app.use("/api", allRoutes);
 
+const userRouter = require("./routes/user.routes");
+app.use("/api", userRouter);
+
 const eventsRouter = require("./routes/event.routes");
 app.use("/api", eventsRouter);
 //do we need to add isAuthenticated

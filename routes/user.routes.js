@@ -24,14 +24,16 @@ router.put("/profile/:userId", isAuthenticated, (req, res, next) => {
 
 router.get("/profile/:userId/usergames", isAuthenticated, (req, res, next) => {
   const { userId } = req.params;
+  console.log(userId)
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     res.status(400).json({ message: "" });
     return;
   }
   Event.find({ players: { $in: [userId] } })
     .then((userEvents) => {
+       console.log("userGames", userEvents);
       res.json(userEvents);
-      console.log(userEvents);
+     
     })
     .catch((error) => res.json(error));
 });
@@ -43,7 +45,8 @@ router
       res.render("users/edit-profile", { user, userLoggedIn: true });
     });
   })
-  .post("/upload", fileUploader.single("imageUrl"), (req, res) => {
+  /*
+  .post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
     const userId = req.params.id;
     const { email, name } = req.body;
     let image;
@@ -58,6 +61,7 @@ User.findByIdAndUpdate(userId, { name, email, image })
     res.redirect(`/users/profile`);
   })
   .catch((error) => res.json(error));
+  */
 // DELETE  /api/profile/:userId  -  Deletes a specific user by id
 //how to delete your won account??=>
 router.delete("/profile/:userId", isAuthenticated, (req, res, next) => {
