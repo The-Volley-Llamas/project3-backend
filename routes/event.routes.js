@@ -32,7 +32,7 @@ console.log(req.body)
 //  GET /api/events -  Retrieves all of the events
 router.get("/event", (req, res, next) => {
   Event.find()
-    .populate("venue")
+    .sort({date: 1}).populate("venue")
     .then((allEvents) => {
       console.log('all events length', allEvents)
       res.json(allEvents)}
@@ -51,7 +51,7 @@ router.get("/event/:eventId", (req, res, next) => {
   // We use .populate() method to get swap the `_id`s for the actual venue documents
   Event.findById(eventId)
     .populate("venue")
-   // .populate("players")
+   .populate("players")
     .then((event) => res.status(200).json(event))
     .catch((error) => res.json(error));
 });
@@ -82,7 +82,7 @@ router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
     .then((response) => {
       if (response.players.includes(userId)) {
         res.status(200).json({ message: "Already signed up!" });
-      } else if(response.players.length < numberOfPlayers) {
+      } else if(response.players.length < response.numberOfPlayers) {
         return Event.findByIdAndUpdate(
           eventId,
           { $addToSet: { players: userId } },
