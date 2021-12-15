@@ -30,6 +30,7 @@ router.get("/profile/:userId/usergames", isAuthenticated, (req, res, next) => {
     return;
   }
   Event.find({ players: { $in: [userId] } })
+  .populate("venue players")
     .sort({ date: 1 })
     .then((userEvents) => {
       console.log("userGames", userEvents);
