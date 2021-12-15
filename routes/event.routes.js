@@ -95,8 +95,30 @@ router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
     .catch((error) => res.status(500).json(error));
 });
 
+
+router.put("/remove/:eventId/:userId", isAuthenticated, (req, res, next) => {
+  const { eventId, userId } = req.params;
+  if (
+    !mongoose.Types.ObjectId.isValid(eventId) ||
+    !mongoose.Types.ObjectId.isValid(userId)
+  ) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+  Event.findByIdAndUpdate(
+          eventId,
+          { $pull: { players: userId } },
+          { new: true }
+        )
+          .then((updatedEvent) =>
+            res.json({ updatedEvent, message: "You have been removed from the game!" })
+          )
+          .catch((error) => res.status(500).json(error));
+      }
+);
+
 // DELETE  /api/events/:eventId  -  Deletes a specific event by id
-router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
+/*router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
   const { eventId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
@@ -113,5 +135,6 @@ router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
     )
     .catch((error) => res.json(error));
 });
+*/
 
 module.exports = router;
