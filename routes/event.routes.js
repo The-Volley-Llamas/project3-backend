@@ -7,7 +7,7 @@ const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-//works without the isAuthenticated, throwing errors otherwise
+
 
 //  POST /api/events  -  Creates a new events
 router.post("/event/add", isAuthenticated, (req, res, next) => {
