@@ -55,20 +55,5 @@ router.post("/venue", isAuthenticated, (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
-//  DELETE /api/venue/:venueId  - Deletes a specific venue by id
-router.delete("/venue/:venueId", isAuthenticated, (req, res, next) => {
-  const { venueId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(venueId)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-    return;
-  }
-
-  Venue.findByIdAndRemove(venueId)
-    .then(() =>
-      res.json({ message: `venue with ${venueId} is removed successfully.` })
-    )
-    .catch((error) => res.json(error));
-});
 */
 module.exports = router;
