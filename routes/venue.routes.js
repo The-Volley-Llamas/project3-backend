@@ -7,7 +7,6 @@ const Venue = require("../models/Venue.model");
 const Event = require("../models/Event.model");
 //const isAuthenticated = require("../middleware/jwt.middleware");
 
-
 //  GET /api/venue -  Retrieves all of the venues
 router.get("/venue", (req, res, next) => {
   Venue.find()
@@ -39,21 +38,4 @@ router.put("/venue/:venueId", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
-/*
-//  POST /api/venue  -  Creates a new venue
-router.post("/venue", isAuthenticated, (req, res, next) => {
-  const { name, description, location, rating, image } = req.body;
- console.log(req.body);
-  Venue.create({ name, description, location, rating, image })
-    .then((newVenue) => {
-      return 
-      Event.findByIdAndUpdate(eventId, {
-        $push: { venue: newVenue._id },
-      });
-    })
-    .then((response) => res.json(response))
-    .catch((err) => res.json(err));
-});
-
-*/
 module.exports = router;

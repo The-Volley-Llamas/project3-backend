@@ -4,9 +4,6 @@ const express = require("express");
 
 const { isAuthenticated } = require("./middleware/jwt.middleware");
 
-//console.log(process.env)
-
-
 const app = express();
 require("./config")(app);
 
@@ -20,7 +17,6 @@ app.use("/api", userRouter);
 
 const eventsRouter = require("./routes/event.routes");
 app.use("/api", eventsRouter);
-//do we need to add isAuthenticated
 
 const venuesRouter = require("./routes/venue.routes");
 app.use("/api", venuesRouter);

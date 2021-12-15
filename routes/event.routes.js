@@ -12,7 +12,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 //  POST /api/events  -  Creates a new events
 router.post("/event/add", isAuthenticated, (req, res, next) => {
 const { formState: {sport, numberOfPlayers, venue, date, time, price }, user:{_id}} = req.body;
-console.log(req.body)
+
   Event.create({
     sport,
     numberOfPlayers,
@@ -23,7 +23,6 @@ console.log(req.body)
     price,
   })
     .then((response) => {
-      console.log(response);
       res.status(200).json(response);
     })
     .catch((err) => res.json(err));
@@ -34,7 +33,6 @@ router.get("/event", (req, res, next) => {
   Event.find()
     .sort({date: 1}).populate("venue")
     .then((allEvents) => {
-      console.log('all events length', allEvents)
       res.json(allEvents)}
       )
     .catch((err) => res.json(err));

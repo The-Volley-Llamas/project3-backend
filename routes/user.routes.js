@@ -24,7 +24,6 @@ router.put("/profile/:userId", isAuthenticated, (req, res, next) => {
 
 router.get("/profile/:userId/usergames", isAuthenticated, (req, res, next) => {
   const { userId } = req.params;
-  console.log(userId);
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     res.status(400).json({ message: "" });
     return;
@@ -33,15 +32,12 @@ router.get("/profile/:userId/usergames", isAuthenticated, (req, res, next) => {
   .populate("venue players")
     .sort({ date: 1 })
     .then((userEvents) => {
-      console.log("userGames", userEvents);
       res.json(userEvents);
     })
     .catch((error) => res.json(error));
 });
 
 router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
-  // console.log("file is: ", req.file)
-
   if (!req.file) {
     next(new Error("No file uploaded!"));
   } else {
@@ -54,25 +50,8 @@ router.route("/profile/edit/:id").get((req, res) => {
     res.render("users/edit-profile", { user, userLoggedIn: true });
   });
 });
-/*
-  .post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
-    const userId = req.params.id;
-    const { email, name } = req.body;
-    let image;
-    if (!req.file) {
-      next(new Error("No file uploaded!"));
-      return;
-    }
-    res.json({ secure_url: req.file.path });
-  });
-User.findByIdAndUpdate(userId, { name, email, image })
-  .then((user) => {
-    res.redirect(`/users/profile`);
-  })
-  .catch((error) => res.json(error));
-  */
+
 // DELETE  /api/profile/:userId  -  Deletes a specific user by id
-//how to delete your won account??=>
 router.delete("/profile/:userId", isAuthenticated, (req, res, next) => {
   const { userId } = req.params;
 
