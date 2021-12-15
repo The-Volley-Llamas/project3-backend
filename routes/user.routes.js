@@ -30,10 +30,10 @@ router.get("/profile/:userId/usergames", isAuthenticated, (req, res, next) => {
     return;
   }
   Event.find({ players: { $in: [userId] } })
+    .sort({ date: 1 })
     .then((userEvents) => {
-       console.log("userGames", userEvents);
+      console.log("userGames", userEvents);
       res.json(userEvents);
-     
     })
     .catch((error) => res.json(error));
 });
