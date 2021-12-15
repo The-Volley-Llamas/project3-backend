@@ -117,24 +117,5 @@ router.put("/remove/:eventId/:userId", isAuthenticated, (req, res, next) => {
       }
 );
 
-// DELETE  /api/events/:eventId  -  Deletes a specific event by id
-/*router.delete("/event/:eventId", isAuthenticated, (req, res, next) => {
-  const { eventId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(eventId)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-
-    return;
-  }
-
-  Event.findByIdAndRemove(eventId)
-    .then(() =>
-      res.json({
-        message: `Event with ${eventId} is removed successfully.`,
-      })
-    )
-    .catch((error) => res.json(error));
-});
-*/
 
 module.exports = router;
