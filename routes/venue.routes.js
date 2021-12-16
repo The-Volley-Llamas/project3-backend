@@ -12,7 +12,7 @@ router.get("/venue", (req, res, next) => {
   Venue.find()
     .populate("venue")
     .then((allVenues) => res.json(allVenues))
-    .catch((err) => res.json(err));
+    .catch((err) => res.json(err)); 
 });
 
 //  GET /api/venue/:venueId  - Retrieves a specific venue by id
