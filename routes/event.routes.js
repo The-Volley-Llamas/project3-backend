@@ -7,11 +7,12 @@ const Event = require("../models/Event.model");
 const Venue = require("../models/Venue.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-
-
 //  POST /api/events  -  Creates a new events
 router.post("/event/add", isAuthenticated, (req, res, next) => {
-const { formState: {sport, numberOfPlayers, venue, date, time, price }, user:{_id}} = req.body;
+  const {
+    formState: { sport, numberOfPlayers, venue, date, time, price },
+    user: { _id },
+  } = req.body;
 
   Event.create({
     sport,
@@ -31,10 +32,11 @@ const { formState: {sport, numberOfPlayers, venue, date, time, price }, user:{_i
 //  GET /api/events -  Retrieves all of the events
 router.get("/event", (req, res, next) => {
   Event.find()
-    .sort({date: 1}).populate("venue")
+    .sort({ date: 1 })
+    .populate("venue")
     .then((allEvents) => {
-      res.json(allEvents)}
-      )
+      res.json(allEvents);
+    })
     .catch((err) => res.json(err));
 });
 
@@ -49,7 +51,7 @@ router.get("/event/:eventId", (req, res, next) => {
   // We use .populate() method to get swap the `_id`s for the actual venue documents
   Event.findById(eventId)
     .populate("venue")
-   .populate("players")
+    .populate("players")
     .then((event) => res.status(200).json(event))
     .catch((error) => res.json(error));
 });
@@ -80,19 +82,20 @@ router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
     .then((response) => {
       if (response.players.includes(userId)) {
         res.status(200).json({ message: "Already signed up!" });
-      } else if(response.players.length < response.numberOfPlayers) {
+      } else if (response.players.length < response.numberOfPlayers) {
         return Event.findByIdAndUpdate(
           eventId,
           { $addToSet: { players: userId } },
           { new: true }
         )
-          .then((updatedEvent) => res.json({updatedEvent, message: "✅ You have joined the game!"}))
+          .then((updatedEvent) =>
+            res.json({ updatedEvent, message: "✅ You have joined the event!" })
+          )
           .catch((error) => res.status(500).json(error));
       }
     })
     .catch((error) => res.status(500).json(error));
 });
-
 
 router.put("/remove/:eventId/:userId", isAuthenticated, (req, res, next) => {
   const { eventId, userId } = req.params;
@@ -104,16 +107,17 @@ router.put("/remove/:eventId/:userId", isAuthenticated, (req, res, next) => {
     return;
   }
   Event.findByIdAndUpdate(
-          eventId,
-          { $pull: { players: userId } },
-          { new: true }
-        )
-          .then((updatedEvent) =>
-            res.json({ updatedEvent, message: "You have been removed from the game!" })
-          )
-          .catch((error) => res.status(500).json(error));
-      }
-);
-
+    eventId,
+    { $pull: { players: userId } },
+    { new: true }
+  )
+    .then((updatedEvent) =>
+      res.json({
+        updatedEvent,
+        message: "You have been removed from the game!",
+      })
+    )
+    .catch((error) => res.status(500).json(error));
+});
 
 module.exports = router;
