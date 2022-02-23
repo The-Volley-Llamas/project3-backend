@@ -1,74 +1,119 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const multerUploader = require("../config/cloudinary");
-const Project = require("../models/Project.model");
-const Task = require("../models/Task.model");
+const fileUploader = require("../config/cloudinary.config");
+const User = require("../models/User.model");
+const Event = require("../models/Event.model");
+const Venue = require("../models/Venue.model");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-//  POST /api/projects  -  Creates a new project
-router.post("/projects", (req, res, next) => {
-  const { title, description } = req.body;
 
-  Project.create({ title, description, tasks: [] })
-    .then((response) => res.json(response))
+
+//  POST /api/events  -  Creates a new events
+router.post("/event/add", isAuthenticated, (req, res, next) => {
+const { formState: {sport, numberOfPlayers, venue, date, time, price }, user:{_id}} = req.body;
+
+  Event.create({
+    sport,
+    numberOfPlayers,
+    players: [_id],
+    venue: venue,
+    date,
+    time,
+    price,
+  })
+    .then((response) => {
+      res.status(200).json(response);
+    })
     .catch((err) => res.json(err));
 });
 
-//  GET /api/projects -  Retrieves all of the projects
-router.get("/projects", (req, res, next) => {
-  Project.find()
-    .populate("tasks")
-    .then((allProjects) => res.json(allProjects))
+//  GET /api/events -  Retrieves all of the events
+router.get("/event", (req, res, next) => {
+  Event.find()
+    .sort({date: 1}).populate("venue")
+    .then((allEvents) => {
+      res.json(allEvents)}
+      )
     .catch((err) => res.json(err));
 });
 
-//  GET /api/projects/:projectId -  Retrieves a specific project by id
-router.get("/projects/:projectId", (req, res, next) => {
-  const { projectId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+//  GET /api/events/:eventsId -  Retrieves a specific event by id
+router.get("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-
-  // Each Project document has `tasks` array holding `_id`s of Task documents
-  // We use .populate() method to get swap the `_id`s for the actual Task documents
-  Project.findById(projectId)
-    .populate("tasks")
-    .then((project) => res.status(200).json(project))
+  // Each event document has `venues` array holding `_id`s of venue documents
+  // We use .populate() method to get swap the `_id`s for the actual venue documents
+  Event.findById(eventId)
+    .populate("venue")
+   .populate("players")
+    .then((event) => res.status(200).json(event))
     .catch((error) => res.json(error));
 });
 
-// PUT  /api/projects/:projectId  -  Updates a specific project by id
-router.put("/projects/:projectId", (req, res, next) => {
-  const { projectId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+// PUT  /api/events/:eventId  -  Updates a specific event by id
+router.put("/event/:eventId", (req, res, next) => {
+  const { eventId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
+  Event.findByIdAndUpdate(eventId, req.body, { new: true })
 
-  Project.findByIdAndUpdate(projectId, req.body, { new: true })
-    .then((updatedProject) => res.json(updatedProject))
+    .then((updatedEvent) => res.json(updatedEvent))
     .catch((error) => res.json(error));
 });
 
-// DELETE  /api/projects/:projectId  -  Deletes a specific project by id
-router.delete("/projects/:projectId", (req, res, next) => {
-  const { projectId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+router.put("/join/:eventId/:userId", isAuthenticated, (req, res, next) => {
+  const { eventId, userId } = req.params;
+  if (
+    !mongoose.Types.ObjectId.isValid(eventId) ||
+    !mongoose.Types.ObjectId.isValid(userId)
+  ) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-
-  Project.findByIdAndRemove(projectId)
-    .then(() =>
-      res.json({
-        message: `Project with ${projectId} is removed successfully.`,
-      })
-    )
-    .catch((error) => res.json(error));
+  Event.findById(eventId)
+    .then((response) => {
+      if (response.players.includes(userId)) {
+        res.status(200).json({ message: "Already signed up!" });
+      } else if(response.players.length < response.numberOfPlayers) {
+        return Event.findByIdAndUpdate(
+          eventId,
+          { $addToSet: { players: userId } },
+          { new: true }
+        )
+          .then((updatedEvent) => res.json({updatedEvent, message: "✅ You have joined the game!"}))
+          .catch((error) => res.status(500).json(error));
+      }
+    })
+    .catch((error) => res.status(500).json(error));
 });
+
+
+router.put("/remove/:eventId/:userId", isAuthenticated, (req, res, next) => {
+  const { eventId, userId } = req.params;
+  if (
+    !mongoose.Types.ObjectId.isValid(eventId) ||
+    !mongoose.Types.ObjectId.isValid(userId)
+  ) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+  Event.findByIdAndUpdate(
+          eventId,
+          { $pull: { players: userId } },
+          { new: true }
+        )
+          .then((updatedEvent) =>
+            res.json({ updatedEvent, message: "You have been removed from the game!" })
+          )
+          .catch((error) => res.status(500).json(error));
+      }
+);
+
 
 module.exports = router;

@@ -1,71 +1,95 @@
-### API Documentation
+Sportbuddy
+Description
+In the mood for a game of football? ⚽️ Ready to dust off your hiking boots? 🌳 Always struggle to find the perfect tennis partner? 🎾[Sportbuddy helps you search for the upcoming events, matches, and court availabilities to suit your desires. Sport Buddy allows you to search via a specific location, date or just simply see what’s the next upcoming available slot for you to join in!
 
-We will start our project by first documenting all of the routes and data models for our API. Following best practices we will use _verbs_ to specify the type of operation being done and _nouns_ when naming endpoints.
+User Stories
+404: As an anon/user I can see a 404 page if I try to reach a page that does not exist so that I know it's my fault
+Homepage: As a user I want to be able to see the homepage so I can see what the app is about
+Signup: As an anon I can sign up in the platform so that I can start playing attending events
+Login: As a user I can login to the platform so that I can play my chosen sport/s
+Logout: As a user I can logout from the platform so that no one else can use it
+Add Event As a user I can add an event to host
+Edit Event As a user I can edit an event
+View Events As a user I want to see a list of all upcoming events/slots I can join
+Backlog
+List of other features outside of the MVPs scope:
 
-#### Routes
+Google Oauth
+Messaging feature
+Credits/Payment system
+ROUTES:
+GET /
 
-##### Project routes
+renders the homepage, where user can choose to search by location or event
+GET /auth/signup
 
-| HTTP verb | URL                        | Request body | Action                        |
-| --------- | -------------------------- | ------------ | ----------------------------- |
-| GET       | `/api/projects`            | (empty)      | Returns all the projects      |
-| POST      | `/api/projects`            | JSON         | Adds a new project            |
-| GET       | `/api/projects/:projectId` | (empty)      | Returns the specified project |
-| PUT       | `/api/projects/:projectId` | JSON         | Edits the specified project   |
-| DELETE    | `/api/projects/:projectId` | (empty)      | Deletes the specified project |
+redirects to / if user logged in
+renders the signup form (with flash msg)
+POST /auth/signup
 
-##### Task routes
+redirects to / if user logged in
+body:
+username
+email
+password
+GET /auth/login
 
-| HTTP verb | URL                  | Request body | Action                     |
-| --------- | -------------------- | ------------ | -------------------------- |
-| POST      | `/api/tasks`         | JSON         | Adds a new task            |
-| GET       | `/api/tasks/:taskId` | (empty)      | Returns the specified task |
-| PUT       | `/api/tasks/:taskId` | JSON         | Edits the specified task   |
-| DELETE    | `/api/tasks/:taskId` | (empty)      | Deletes the specified task |
+redirects to / if user logged in
+renders the login form (with flash msg)
+POST /auth/login
 
+redirects to / if user logged in
+body:
+username
+password
+POST /auth/logout
 
+body: (empty)
+GET /events
 
-##### Auth routes
+renders the events list + attend function
+POST /event/create-listing
 
-| HTTP verb | URL            | Request Headers                 | Request Body              |
-| --------- | -------------- | ------------------------------- | ------------------------- |
-| POST      | `/auth/signup` | --                              | { email, password, name } |
-| POST      | `/auth/login`  | --                              | { email, password }       |
-| GET       | `/auth/verify` | Authorization: Bearer \< JWT \> | --                        |
+redirects to / if user is anonymous
+body:
+event name
+rating/review
+GET /event/:id
 
+renders the event detail page
+includes the list of events, location, price points, attendees
+add to favourites button & leave rating/create review button
+GET /location/:id/
 
+renders the location detail page
 
-<hr>
+add to favourites button & leave rating/create review button
 
-#### Models
+redirects to / if user is anonymous
 
-##### Project Model
+body: (empty - the user is already stored in the session)
 
-```js
-{
-  title: String,
-  description: String,
-  tasks: [ { type: Schema.Types.ObjectId, ref: 'Task' } ]
-}
-```
+Models
+User model { name: String, email: String, password: String, profileImage: String,, event: { type: Schema.Types.ObjectId, ref: "Event" } }
 
-##### Task Model
+Event model { sport: String, numberOfPlayers: Number, players: [{ type: Schema.Types.ObjectId, ref: "User"}], venue: { type: Schema.Types.ObjectId, ref: "Venue"}, date: String, time: String, price: Number, }
 
-```js
-{
-  title: String,
-  description: String,
-  project: { type: Schema.Types.ObjectId, ref: 'Project' }
-}
-```
+Venue model { name: String, description: String,
 
-##### User Model
+location: {type: {type: String, default: "Point"}, coordinates: Array}, rating: Number, image: { type: String, default: "https://deportesurbanos.com/wp-content/uploads/2020/05/pista-multideportiva-antivandalica.jpg", }
 
-```js
-{
-  email: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  name: { type: String, required: true },
-}
-```
+Links
+Project planning
+Link to our GitHub project board
 
+Git
+The url to your repository and to your deployed project
+
+Repository Link
+
+[Deploy Link] (https://sport--buddy.herokuapp.com/)
+
+Slides
+The url to your presentation slides
+
+Slides Link
